@@ -28,7 +28,7 @@ inquirer
             name: 'tests',
         },
         {
-            type: 'input',
+            type: 'list',
             message: 'What is the license for this project',
             name: 'license',
             choices: [
@@ -42,48 +42,76 @@ inquirer
                 'AGPLv3'
             ]
         },
-
-
+        {
+            type: 'input',
+            message: 'What is your GitHub username?',
+            name: 'username',
+        },
     ])
     .then((project) => {
         const filename = 'README.md';
-        const liceSelect = `${data.license}`
+        const liceSelect = `${project.license}`
         let lice;
         switch (liceSelect) {
             case 'MIT':
                 lice = 'MIT'
                 break;
-
+            case 'GPLv2':
+                lice = 'GPLv2'
+                break;
+            case 'Apache':
+                lice = ''
+                break;
+            case 'GPLv3':
+                lice = ''
+                break;
+            case 'BSD 3-clause':
+                lice = ''
+                break;
+            case 'BSD 2-clause':
+                lice = ''
+                break;
+            case 'LGPLv3':
+                lice = ''
+                break;
+            case 'AGPLv3':
+                lice = ''
+                break;
         }
         const fileContent = `
-        // readme goes here
-        # ${project.title}
+# ${project.title}
 
-        ## Table of Contents
+## Table of Contents
 
-        - [Description](#Description)
-        - [Installation](#Installation)
-        - [Usage](#Usage)
-        - [Contributing](#Contributing)
-        - [Tests](#Tests)
-        - [Questions](#Questions)
-        - [License](#License)
+- [Description](#Description)
+- [Installation](#Installation)
+- [Usage](#Usage)
+- [Contributing](#Contributing)
+- [Tests](#Tests)
+- [Questions](#Questions)
+- [License](#License)
 
-        ## Description
+## Description
+${project.description}
         
-        ## Installation
+## Installation
+${project.installation}
 
-        ## Usage
+## Usage
+${project.usage}
 
-        ## Contributing
+## Contributing
+${project.contributing}
 
-        ## Tests
+## Tests
+${project.tests}
 
-        ## Questions
+## Questions
+[${project.username}](https://github.com/${project.username})
 
-        ## License
-
-        `
+## License
+${lice}
+`
         fs.writeFile(filename, fileContent, (err) => {
             if (err) {
                 console.log(err);
