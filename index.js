@@ -19,6 +19,11 @@ inquirer
         },
         {
             type: 'input',
+            message: 'How do you install this project?',
+            name: 'installation',
+        },
+        {
+            type: 'input',
             message: 'What are the contribution guidelines for this project?',
             name: 'contributing',
         },
@@ -47,39 +52,18 @@ inquirer
             message: 'What is your GitHub username?',
             name: 'username',
         },
+        {
+            type: 'input',
+            message: 'What is your email?',
+            name: 'email',
+        },
     ])
     .then((project) => {
         const filename = 'README.md';
-        const liceSelect = `${project.license}`
-        let lice;
-        switch (liceSelect) {
-            case 'MIT':
-                lice = 'MIT'
-                break;
-            case 'GPLv2':
-                lice = 'GPLv2'
-                break;
-            case 'Apache':
-                lice = ''
-                break;
-            case 'GPLv3':
-                lice = ''
-                break;
-            case 'BSD 3-clause':
-                lice = ''
-                break;
-            case 'BSD 2-clause':
-                lice = ''
-                break;
-            case 'LGPLv3':
-                lice = ''
-                break;
-            case 'AGPLv3':
-                lice = ''
-                break;
-        }
         const fileContent = `
 # ${project.title}
+
+![license](https://img.shields.io/badge/License-${project.license}-important)
 
 ## Table of Contents
 
@@ -107,10 +91,15 @@ ${project.contributing}
 ${project.tests}
 
 ## Questions
-[${project.username}](https://github.com/${project.username})
+If you have any questions about the project, feel free to reach out by means below. 
+
+GitHub: https://github.com/${project.username}
+Email: ${project.email}
+
 
 ## License
-${lice}
+${project.license}
+
 `
         fs.writeFile(filename, fileContent, (err) => {
             if (err) {
